@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from Adminapp.models import ProductModel
 from Userapp.models import Cart
+from django.contrib import messages
 
 
 # Create your views here.
@@ -73,11 +75,47 @@ def AddCart(request, id):
 def viewCart(request):
     user = request.user
     cart_obj = Cart.objects.filter(user=user)
-    return render(request, 'cart.html', {'data': cart_obj})
+    total_price = sum(item.total_price for item in cart_obj)
+    delivery_tax = 2
+    discount = 40
+    coupon_discount = 10
+    grand_total = total_price + delivery_tax - discount - coupon_discount
+    if grand_total < 0:
+        grand_total = 0
+    else:
+        grand_total = grand_total
+    return render(request, 'cart.html',
+                  {'data': cart_obj, 'total': total_price, 'delivery_tax': delivery_tax, 'discount': discount,
+                   'coupon_discount': coupon_discount, 'grand_total': grand_total, })
 
 
 def cartDelete(request, id):
     user = request.user
     cart_obj = Cart.objects.filter(cart_id=id, user=user)
     cart_obj.delete()
+    return redirect('/user/home')
+
+
+def checkOut(request):
+    user = request.user
+    cart_obj = Cart.objects.filter(user=user)
+    total_price = sum(item.total_price for item in cart_obj)
+    delivery_tax = 2
+    discount = 40
+    coupon_discount = 10
+    grand_total = total_price + delivery_tax - discount - coupon_discount
+    if grand_total < 0:
+        grand_total = 0
+    else:
+        grand_total = grand_total
+
+    return render(request, 'checkout.html', {'total': total_price, 'delivery_tax': delivery_tax, 'discount': discount,
+                                             'coupon_discount': coupon_discount, 'grand_total': grand_total})
+
+
+@login_required
+def placeOrder(request):
+    cart_obj = Cart.objects.filter(user=request.user)
+    cart_obj.delete()
+    messages.success(request, "Item ordered successfully")
     return redirect('/user/home')

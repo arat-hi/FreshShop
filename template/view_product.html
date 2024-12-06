@@ -9,6 +9,13 @@
 </head>
 <body class="bg-gray-100 font-sans">
     <!-- Navbar -->
+    {% if messages %}
+        {% for message in messages %}
+        <script type="text/javascript">
+            alert("{{ message }}");
+        </script>
+        {% endfor %}
+    {% endif %}
     <nav class="bg-white shadow-md">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <!-- Logo -->
