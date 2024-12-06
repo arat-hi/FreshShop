@@ -6,7 +6,7 @@ FreshShop is an online platform for selling fresh vegetables and fruits. This ap
 - User Registration and Authentication
 - Product Listings (Vegetables, Fruits)
 - Add to Cart and Checkout Functionality
-- 
+- Search functionallity added
 - Admin Panel for Product
 
 ## Technologies Used
