@@ -50,6 +50,18 @@
 <body>
     <div class="container product-container">
         <h1 class="text-center mb-4">Product List</h1>
+        <form method="POST" class="mb-4">
+            {% csrf_token %}
+            <div class="input-group">
+                <input
+                    type="text"
+                    name="q"
+                    class="form-control"
+                    placeholder="Search for products..."
+                    >
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
         <div class="row">
             {% for product in products %}
             <div class="col-md-4 col-sm-6 mb-4">

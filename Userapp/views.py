@@ -34,11 +34,14 @@ def loginUser(request):
 
 def view_product(request):
     product_obj = ProductModel.objects.all()
+    if request.method == "POST":
+        search = request.POST.get('q')
+        if search:
+            product_obj = ProductModel.objects.filter(product_name__icontains = search)
     return render(request, 'view_product.html', {'products': product_obj})
 
 
-from django.shortcuts import redirect
-from .models import Cart, ProductModel
+
 
 
 def AddCart(request, id):
