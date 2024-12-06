@@ -61,12 +61,13 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-					<div class="login-box">
-						<select id="basic" class="selectpicker show-tick form-control" data-placeholder="Sign In" >
-							<option>Register Here</option>
-							<option>Sign In</option>
-						</select>
-					</div>
+<div class="login-box">
+    <select id="basic" class="selectpicker show-tick form-control" data-placeholder="Sign In" onchange="navigateToPage(this)">
+        <option value="">Register Here</option>
+        <option value="user/register">Register Here</option>
+        <option value="user">Sign In</option>
+    </select>
+</div>
                     <div class="text-slid-box">
                         <div id="offer-box" class="carouselTicker">
                             <ul class="offer-box">
@@ -680,6 +681,14 @@
     <script src="{% static 'js/form-validator.min.js' %}"></script>
     <script src="{% static 'js/contact-form-script.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
+    <script>
+    function navigateToPage(select) {
+        const url = select.value;
+        if (url) {
+            window.location.href = url;
+        }
+    }
+</script>
 <script>
     function navigateToLink() {
         const select = document.getElementById("basic");
